@@ -122,42 +122,6 @@ func (m model) View() string {
 
 
 func main() {
-
-	// if len(os.Args)<2{
-	// 	fmt.Println("Please provide a valid argument flag name")
-    //     return
-	// }
-
-	// input := os.Args[1]
-
-	// if input == "clipboard" {
-	// 	copyClipboard()
-    //     return
-	// }
-	// if input == "url" {
-	// 	redirectUrl()
-    //     return
-	// }
-	// if input == "linkedin" {
-	// 	openBrowser(linkedinUrl)
-	// 	println("Redirecting to linkedin")
-
-	// }
-	// if input == "github" {
-	// 	openBrowser(githubUrl)
-	// 	println("Redirecting to github")
-
-	// }
-	// if input == "twitter" {
-	// 	openBrowser(twitterUrl)
-	// 	println("Redirecting to twitter")
-
-	// }
-	// if input == "portfolio" {
-	// 	openBrowser(portfolioUrl)
-	// 	println("Redirecting to portfolio")
-
-	// }
 	p := tea.NewProgram(initialModel())
     if _, err := p.Run(); err != nil {
         fmt.Printf("Alas, there's been an error: %v", err)
