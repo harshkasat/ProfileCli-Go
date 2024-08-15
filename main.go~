@@ -1,0 +1,99 @@
+package main
+
+import (
+	"fmt"
+	"log"
+	"os"
+	"golang.design/x/clipboard"
+	"os/exec"
+	"runtime"
+)
+
+const linkedinUrl = "https://www.linkedin.com/in/harshkasat/"
+const githubUrl = "https://github.com/harshkasat"
+const twitterUrl = "https://twitter.com/harsh__kasat"
+const portfolioUrl = "https://machoharsh-tech.vercel.app/"
+
+
+func main() {
+
+	if len(os.Args)<2{
+		fmt.Println("Please provide a valid argument flag name")
+        return
+	}
+
+	input := os.Args[1]
+
+	if input == "clipboard" {
+		copyClipboard()
+        return
+	}
+	if input == "url" {
+		redirectUrl()
+        return
+	}
+	if input == "linkedin" {
+		openBrowser(linkedinUrl)
+		println("Redirecting to linkedin")
+
+	}
+	if input == "github" {
+		openBrowser(githubUrl)
+		println("Redirecting to github")
+
+	}
+	if input == "twitter" {
+		openBrowser(twitterUrl)
+		println("Redirecting to twitter")
+
+	}
+	if input == "portfolio" {
+		openBrowser(portfolioUrl)
+		println("Redirecting to portfolio")
+
+	}
+}
+
+func copyClipboard(){
+	if errors := clipboard.Init(); errors != nil {
+		log.Fatal(errors)
+	}
+
+	var url = fmt.Sprintf("LinkedIn %v \nGithub %v \nTwiiter %v \nPortfolio %v",linkedinUrl, githubUrl, twitterUrl, portfolioUrl)
+
+	clipboard.Write(clipboard.FmtText, []byte(url))
+	println("All Url are saved to clipboard")
+}
+
+func redirectUrl(){
+	var urls = []string{linkedinUrl, githubUrl, twitterUrl, portfolioUrl}
+	for _, url := range urls{
+		openBrowser(url)
+		// time.Sleep(10*time.Second)
+	}
+}
+
+func openBrowser(url string) {
+	var cmd string
+	var args []string
+
+	switch runtime.GOOS {
+	case "windows":
+		cmd = "rundll32"
+		args = []string{"url.dll,FileProtocolHandler", url}
+	case "darwin":
+		cmd = "open"
+		args = []string{"-na", "Google Chrome", url}
+	case "linux":
+		cmd = "xdg-open"
+		args = []string{url}
+	default:
+		fmt.Println("Unsupported platform")
+		return
+	}
+
+	err := exec.Command(cmd, args...).Start()
+	if err != nil {
+		log.Fatalf("Failed to start browser: %w", err)
+	}
+}
