@@ -80,6 +80,8 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				case "Url":
 					redirectUrl()
 				}
+				delete(m.selected, m.cursor)
+
             }
             // Execute the function based on the selected option
         }
